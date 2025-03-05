@@ -25,7 +25,7 @@
             <img src="مكتب-سياحي/مكتب-سياحي-بحريني.webp" alt="مكتب سياحي - مغادر" class="mughader_header_logo">
             <nav class="mughader_desktop_nav">
                 <ul class="mughader_nav_links">
-                    <li><a onclick="closeSidebar()">الصفحة الرئيسية</a></li>
+                    <li><a onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); closeSidebar()">الصفحة الرئيسية</a></li>
                     <li><a onclick="scrollToWhoAreWe('about_us_section_id')">من نحن؟</a></li>
                     <li>
                         <a href="https://www.instagram.com/alrayes_travel?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
@@ -47,7 +47,7 @@
         <div class="mughader_mobile_sidebar" id="mughader_mobile_sidebar">
             <span class="mughader_close_icon" onclick="closeSidebar()">&times;</span>
             <ul>
-                <li><a onclick="closeSidebar()">الصفحة الرئيسية</a></li>
+                <li><a onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); closeSidebar()">الصفحة الرئيسية</a></li>
                 <li><a onclick="scrollToWhoAreWe('about_us_section_id'); closeSidebar()">من
                         نحن؟</a></li>
 
@@ -77,29 +77,27 @@
 
 
 
+    <section class="neon_section">
+        <div class="neon_overlay">
+            <div class="neon_text_container">
 
+                <h1 class="neon_title" title="شركة سياحية">شركة الريس اكسبرس للسفر والسياحة</h1>
 
+                <p class="neon_subtitle">موقعنا: مملكة البحرين
 
+                    <a href="https://www.google.com/maps/place/Alrayes+Express+Travel+and+Tourism/@26.2589024,50.614415,912m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3e49a6170afac6f5:0x7790b43644a455b9!8m2!3d26.2589024!4d50.614415!16s%2Fg%2F11c6dgdd2x?entry=ttu&g_ep=EgoyMDI1MDIyNS4wIKXMDSoASAFQAw%3D%3D"
+                        target="_blank" class="wow_location_icon" title="Open Location in Google Maps">
+                        <ion-icon name="location-sharp"></ion-icon>
+                    </a>
 
-    <section class="wow_effect_section">
-        <div class="wow_overlay">
-            <div class="wow_text_container">
-                <div class="wow_glass_box">
-                    <h1 class="wow_title" title="مكتب سياحي - مغادر">شركة الريس اكسبرس للسفر والسياحة</h1>
-                    <h2 class="wow_subtitle">
-                        <a href="https://www.google.com/maps/place/Alrayes+Express+Travel+and+Tourism/@26.2589024,50.614415,912m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3e49a6170afac6f5:0x7790b43644a455b9!8m2!3d26.2589024!4d50.614415!16s%2Fg%2F11c6dgdd2x?entry=ttu&g_ep=EgoyMDI1MDIyNS4wIKXMDSoASAFQAw%3D%3D"
-                            target="_blank" class="wow_location_icon" title="Open Location in Google Maps">
-                            <ion-icon name="location-sharp"></ion-icon>
-                        </a>
-                        موقعنا: مملكة البحرين
-                    </h2>
-                    <div class="wow_dynamic_text">
-                        <span id="mughader_dynamic_word_switch" class="wow_dynamic_word">رحلات سياحية</span>
-                        <div id="mughader_line_timer" class="wow_timer_line"></div>
-                    </div>
-                </div>
+                </p>
+
+                <a onclick="scrollToMiddleOfElement('scrollable_section_title')" class="neon_button">تصفح العروض
+                    السياحية</a>
+
             </div>
         </div>
+        <canvas id="neon_canvas"></canvas>
     </section>
 
 

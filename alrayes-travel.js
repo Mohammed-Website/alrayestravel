@@ -81,79 +81,6 @@ setInterval(createFloatingElement, 800);
 
 
 
-const words = [
-    "رحلات سياحية",
-    "جورجيا",
-    "جزيرة ياس",
-    "تايلاند",
-    "موسكو",
-    "بولندا",
-    "ميلان",
-    "طرابزون",
-    "فيينا",
-    "عروض سياحية",
-];
-
-let currentIndex = 1;
-const dynamicWordElement = document.getElementById("mughader_dynamic_word_switch");
-const lineTimerElement = document.getElementById("mughader_line_timer");
-
-// Ensure the initial word is visible
-dynamicWordElement.classList.add("visible");
-
-function updateTimerWidth() {
-    const wordWidth = dynamicWordElement.offsetWidth; // Get the width of the current word
-    const scaledWidth = wordWidth * 1; // Adjust width to 40% of the word's width (smaller)
-    lineTimerElement.style.width = `${scaledWidth}px`; // Set timer line width
-    lineTimerElement.style.margin = "0 auto"; // Center the timer under the text
-}
-
-function resetTimer() {
-    lineTimerElement.style.transition = "none"; // Disable transition to reset instantly
-    lineTimerElement.style.width = "0"; // Reset width to 0
-    setTimeout(() => {
-        lineTimerElement.style.transition = "width 1.8s linear"; // Reapply transition
-        lineTimerElement.style.width = `${dynamicWordElement.offsetWidth * 1}px`; // Start animation
-    }, 50); // Small delay to ensure transition is reapplied
-}
-
-function changeWord() {
-    // Fade out by removing 'visible' class
-    dynamicWordElement.classList.remove("visible");
-
-    setTimeout(() => {
-        // Change word
-        dynamicWordElement.innerText = words[currentIndex];
-        currentIndex = (currentIndex + 1) % words.length;
-
-        // Fade in by adding 'visible' class
-        dynamicWordElement.classList.add("visible");
-
-        // Update timer width
-        updateTimerWidth();
-    }, 300); // Match CSS fade duration
-
-    // Reset and start the timer line animation
-    resetTimer();
-}
-
-// Start the loop
-setInterval(changeWord, 1800); // Match the timer line animation duration
-
-// Adjust the timer width for the initial word
-updateTimerWidth();
-resetTimer(); // Start timer animation for the first word
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -344,7 +271,20 @@ scrollToWhoAreWe = function (elementIdName) {
             behavior: "smooth"
         });
     }
+}
 
+function scrollToMiddleOfElement(className) {
+    const element = document.querySelector(`.${className}`);
+    if (element) {
+        const elementRect = element.getBoundingClientRect();
+        const absoluteElementTop = elementRect.top + window.scrollY;
+        const middlePosition = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2);
+
+        window.scrollTo({
+            top: middlePosition,
+            behavior: 'smooth'
+        });
+    }
 }
 
 
@@ -414,8 +354,8 @@ const sectionData = [
     {
         title: 'عروض جورجيا',
         image_1: ['عروض-شركة-الريس-اكسبرس/جورجيا/1.jpg', 'رحلة جورجيا | 8 أيام'],
-        image_2: ['عروض-شركة-الريس-اكسبرس/جورجيا/2.jpg', 'تبليسي & باكورياني & باتومي'],
-        image_3: ['عروض-شركة-الريس-اكسبرس/جورجيا/3.jpg', 'تبليسي & باكورياني & باتومي'],
+        image_2: ['عروض-شركة-الريس-اكسبرس/جورجيا/2.jpg', 'رحلة تبليسي & باكورياني & باتومي'],
+        image_3: ['عروض-شركة-الريس-اكسبرس/جورجيا/3.jpg', 'رحلة تبليسي & باكورياني & باتومي'],
     },
 
     {
@@ -532,7 +472,7 @@ function openFullScreenImage(src, text) {
     const whatsappButton = document.createElement('a');
     whatsappButton.className = 'whatsapp_button';
     whatsappButton.innerText = 'إرسال هذا العرض';
-    whatsappButton.href = `https://wa.me/+97335119948?text=طلب%20حجز%20هذا%20العرض:%0A%0Ahttps://mohammed-website.github.io/alrayestravel/${encodeURIComponent(src)}`;
+    whatsappButton.href = `https://wa.me/+97335119948?text=💎%20طلب%20حجز%20عرض%20جديد%20💎%0A%0Aسلام%20عليكم،%20حاب%20أسأل%20عن%20عرض%0A*${encodeURIComponent(text)}*%0Aوحاب%20أعرف%20تفاصيل%20أكثر%20عن%20عروضكم%20المشابهة.%0A%0A🔗%20رابط%20صورة%20العرض:%0Ahttps://mohammed-website.github.io/alrayestravel/${encodeURIComponent(src)}%0A%0Aبإنتظار%20ردكم%20وشكرًا%20لكم`;
     fullScreenDiv.appendChild(whatsappButton);
 
     // Close on background click
@@ -544,11 +484,17 @@ function openFullScreenImage(src, text) {
 
     // Smooth close function
     function closeFullScreenImage() {
-        fullScreenDiv.classList.remove('visible'); // Trigger fade-out
-        setTimeout(() => fullScreenDiv.remove(), 300); // Remove element after fade-out
+        const fullScreenDiv = document.querySelector('.full_screen_container');
+        if (!fullScreenDiv) return;
 
 
-        document.body.style.overflow = ''; // Re-enable document scrolling
+        fullScreenDiv.style.opacity = '0';
+
+
+        setTimeout(() => {
+            fullScreenDiv.remove();
+            document.body.style.overflow = '';
+        }, 500);
     }
 }
 
