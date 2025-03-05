@@ -26,45 +26,112 @@ function closeSidebar() {
 
 
 
-const section = document.querySelector(".wow_effect_section");
+/* First Section Background Design */
+const canvas = document.getElementById("neon_canvas");
+const ctx = canvas.getContext("2d");
 
-function createFloatingElement() {
-    const element = document.createElement("div");
-    element.classList.add("floating_element");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    // Random position
-    const posX = Math.random() * window.innerWidth;
-    const posY = Math.random() * window.innerHeight;
+const stars = [];
+const lanterns = [];
+const starCount = 80;
+const lanternCount = 4; // Set to 4 lanterns
 
-    // Random size (more variation)
-    const size = Math.random() * 80 + 30; // Min 30px, Max 110px
-    element.style.width = `${size}px`;
-    element.style.height = `${size}px`;
-
-    // Random animation duration (slower movement)
-    const duration = Math.random() * 6 + 4; // 4s to 10s
-    element.style.animationDuration = `${duration}s`;
-
-    // Random blur for depth effect
-    const blurValue = Math.random() * 3 + 1;
-    element.style.filter = `blur(${blurValue}px)`;
-
-    // Random opacity for some circles to be more visible
-    element.style.opacity = Math.random() * 0.6 + 0.4; // Between 0.4 and 1
-
-    element.style.left = `${posX}px`;
-    element.style.top = `${posY}px`;
-
-    section.appendChild(element);
-
-    // Remove after animation ends
-    setTimeout(() => {
-        element.remove();
-    }, duration * 1000);
+// Function to create glowing stars
+function createStars() {
+    for (let i = 0; i < starCount; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 1,
+            opacity: Math.random() * 0.5 + 0.5,
+            speed: Math.random() * 0.2 + 0.1
+        });
+    }
 }
 
-// Generate floating elements continuously
-setInterval(createFloatingElement, 800);
+// Function to create 4 evenly spaced lanterns at the bottom
+function createLanterns() {
+    for (let i = 0; i < lanternCount; i++) {
+        lanterns.push({
+            x: (canvas.width / (lanternCount + 1)) * (i + 1), // Even spacing
+            y: canvas.height * 0.85, // Positioned at bottom quarter
+            swing: Math.random() * 10 + 10, // Swing range
+            angle: Math.random() * Math.PI
+        });
+    }
+}
+
+// Function to draw a crescent moon at the top
+function drawCrescentMoon() {
+    const moonX = canvas.width - 150;
+    const moonY = 60; // Keep it at the top
+    const radius = 50;
+
+    ctx.beginPath();
+    ctx.arc(moonX, moonY, radius, Math.PI * 0.2, Math.PI * 1.8, false);
+    ctx.arc(moonX + 20, moonY - 5, radius * 0.8, Math.PI * 1.2, Math.PI * 2.6, true);
+    ctx.fillStyle = "#FFD700"; // Golden moon color
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "#FFD700";
+    ctx.fill();
+}
+
+// Function to draw glowing stars
+function drawStars() {
+    stars.forEach((star) => {
+        ctx.globalAlpha = star.opacity;
+        ctx.fillStyle = "#FFD700"; // Gold color
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#FFD700";
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+        star.opacity += star.speed * (Math.random() > 0.5 ? 1 : -1);
+        if (star.opacity < 0.3) star.opacity = 0.3;
+        if (star.opacity > 1) star.opacity = 1;
+    });
+}
+
+// Function to draw 4 lanterns at the bottom with smooth swinging
+function drawLanterns() {
+    lanterns.forEach((lantern) => {
+        ctx.globalAlpha = 1; // No flickering
+        ctx.fillStyle = "#FFA500"; // Warm orange glow
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#FFA500";
+
+        // Swinging movement
+        let swingX = lantern.x + Math.sin(lantern.angle) * lantern.swing;
+
+        ctx.beginPath();
+        ctx.rect(swingX - 10, lantern.y, 20, 40);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(swingX, lantern.y + 40, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Update lantern position
+        lantern.angle += 0.02; // Same speed, smooth swing
+    });
+}
+
+// Main animation loop
+function animateCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawCrescentMoon();
+    drawStars();
+    drawLanterns();
+
+    requestAnimationFrame(animateCanvas);
+}
+
+// Initialize elements and start animation
+createStars();
+createLanterns();
+animateCanvas();
 
 
 
